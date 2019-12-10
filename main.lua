@@ -61,6 +61,7 @@ function love.load()
 
     --SONS USADOS DENTRO DO JOGO
     musicaTema = love.audio.newSource("assets/songs/song.mp3","static")
+    somDerrota = love.audio.newSource("assets/songs/losssong.mp3", "static")
 
 
     --REPRODUZINDO MÚSICA PRINCIPAL
@@ -121,7 +122,8 @@ function love.draw()
         end
     elseif(perdeu() == true) then
         musicaTema:stop()
-        love.graphics.print("VOCÊ PERDEU! PRESSIONE ESPAÇO PARA INICIAR NOVAMENTE", love.graphics.getHeight()/2, love.graphics.getWidth()/2)
+        somDerrota:play()
+        love.graphics.print("VOCÊ PERDEU! PRESSIONE ESPAÇO PARA INICIAR NOVAMENTE", love.graphics.getHeight()/2 - 80, love.graphics.getWidth()/2 - 140)
         if(love.keyboard.isDown("space")) then 
             score = 0 --score maior ou igual a 400 é a condição para que o jogador perca. Portanto, se o score zerar, o jogo reiniciará.
         end
