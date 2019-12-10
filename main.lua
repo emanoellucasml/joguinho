@@ -110,7 +110,11 @@ function love.load()
     math.randomseed(os.time())
     perdeu = false
     score = 0
+<<<<<<< HEAD
     vidas = 3
+=======
+    vidas = 0
+>>>>>>> 086660a5ca2ed48e400421ec30bda50246b1bef9
     --CARREGANDO IMAGENS
     background = love.graphics.newImage("assets/img/green-back.png")
     --SONS USADOS DENTRO DO JOGO
@@ -148,6 +152,7 @@ function love.load()
 end
 
 function love.update(dt)
+<<<<<<< HEAD
     if(perdeu == false) then
         atualizaBola(bola1, comedor)
         atualizaBola(bola2, comedor)
@@ -166,6 +171,24 @@ function love.update(dt)
         atualizaBola(bola15, comedor)
         atualizaBolaComida(bolaComida, comedor)
     end
+=======
+    atualizaBola(bola1, comedor)
+    atualizaBola(bola2, comedor)
+    atualizaBola(bola3, comedor)
+    atualizaBola(bola4, comedor)
+    atualizaBola(bola5, comedor)
+    atualizaBola(bola6, comedor)
+    atualizaBola(bola7, comedor)
+    atualizaBola(bola8, comedor)
+    atualizaBola(bola9, comedor)
+    atualizaBola(bola10, comedor)
+    atualizaBola(bola11, comedor)
+    atualizaBola(bola12, comedor)
+    atualizaBola(bola13, comedor)
+    atualizaBola(bola14, comedor)
+    atualizaBola(bola15, comedor)
+    atualizaBolaComida(bolaComida, comedor)
+>>>>>>> 086660a5ca2ed48e400421ec30bda50246b1bef9
     if(love.keyboard.isDown("left")) then
         movimentoEsquerda()
     end
@@ -190,7 +213,11 @@ function love.draw()
             score = 0 --
             playOnce = true
             perdeu = false
+<<<<<<< HEAD
             vidas = 3
+=======
+            vidas = 0
+>>>>>>> 086660a5ca2ed48e400421ec30bda50246b1bef9
         end
     else 
         musicaTema:play()
