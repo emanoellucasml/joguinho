@@ -1,30 +1,13 @@
-local r = nil
-local x = nil
-local y = nil
 local score = nil
 local vidas = nil
-local bola1 = {}
 local background = nil
 local playOnce = true
-local bola2 = {}
-local bola3 = {}
-local bola4 = {}
-local bola5 = {}
-local bola6 = {}
-local bola7 = {}
-local bola8 = {}
-local bola9 = {}
-local bola10 = {}
-local bola11 = {}
-local bola12 = {}
-local bola13 = {}
-local bola14 = {}
-local bola15 = {}
 local bolaComida = {}
 local comedor = {}
 local maxScore = nil
 
 
+local bolas = {}
 
 
 local menuInicialAtivo = true
@@ -120,24 +103,18 @@ function love.load()
     --REPRODUZINDO MÚSICA PRINCIPAL
     --musicaTema:play()
 	--musicaTema:setLooping(true)
+    --CRIA AS BOLAS
+    for i=1,15 do
+        bolas[i] = {}
+    end
     --INICIALIZA AS BOLAS
     bolaComida = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(2, 12)}
-    bola1 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 9)}
-    bola2 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(2, 7)}
-    bola3 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 9)}
-    bola4 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(3, 6)}
-    bola5 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(7, 9)}
-    bola6 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 8)} 
-    bola7 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(5, 10)}
-    bola8 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(6, 11)}
-    bola9 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(5, 11)} 
-    bola10 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(5, 11)}
-    bola11 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(6, 13)}
-    bola12 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(7, 11)} 
-    bola13 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(8, 10)}
-    bola14 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(3, 15)}
-    bola15 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 12)} 
-
+    for i=1,15 do
+        bolas[i].raio = 10
+        bolas[i].x = math.random(1, 790)
+        bolas[i].y = 0
+        bolas[i].f = math.random(math.random(1, 4), math.random(4, 9))
+    end
 
     --INICIALIZA O COMEDOR
     comedor = {posX = 0, posY = 575, largura = 50, altura = 25}
@@ -149,21 +126,9 @@ end
 
 function love.update(dt)
     if(perdeu == false) then
-        atualizaBola(bola1, comedor)
-        atualizaBola(bola2, comedor)
-        atualizaBola(bola3, comedor)
-        atualizaBola(bola4, comedor)
-        atualizaBola(bola5, comedor)
-        atualizaBola(bola6, comedor)
-        atualizaBola(bola7, comedor)
-        atualizaBola(bola8, comedor)
-        atualizaBola(bola9, comedor)
-        atualizaBola(bola10, comedor)
-        atualizaBola(bola11, comedor)
-        atualizaBola(bola12, comedor)
-        atualizaBola(bola13, comedor)
-        atualizaBola(bola14, comedor)
-        atualizaBola(bola15, comedor)
+        for i=1,15 do
+            atualizaBola(bolas[i], comedor)
+        end
         atualizaBolaComida(bolaComida, comedor)
     end
     if(love.keyboard.isDown("left")) then
@@ -198,21 +163,9 @@ function love.draw()
         love.graphics.setColor(255,255,0)
         love.graphics.circle("fill", bolaComida.x, bolaComida.y, bolaComida.raio)
         love.graphics.setColor(255, 255, 255)
-        love.graphics.circle("fill", bola1.x, bola1.y, bola1.raio)
-        love.graphics.circle("fill", bola2.x, bola2.y, bola2.raio)
-        love.graphics.circle("fill", bola3.x, bola3.y, bola3.raio)
-        love.graphics.circle("fill", bola4.x, bola4.y, bola4.raio)        
-        love.graphics.circle("fill", bola5.x, bola5.y, bola5.raio) --pintando uma bola de amarelho, pois essa é a comida
-        love.graphics.circle("fill", bola6.x, bola6.y, bola6.raio)
-        love.graphics.circle("fill", bola7.x, bola7.y, bola7.raio)
-        love.graphics.circle("fill", bola8.x, bola8.y, bola8.raio)
-        love.graphics.circle("fill", bola9.x, bola9.y, bola9.raio)
-        love.graphics.circle("fill", bola10.x, bola10.y, bola10.raio)  
-        love.graphics.circle("fill", bola11.x, bola11.y, bola11.raio)
-        love.graphics.circle("fill", bola12.x, bola12.y, bola12.raio)
-        love.graphics.circle("fill", bola13.x, bola13.y, bola13.raio)
-        love.graphics.circle("fill", bola14.x, bola14.y, bola14.raio)
-        love.graphics.circle("fill", bola15.x, bola15.y, bola15.raio) 
+        for i=1,15 do
+            love.graphics.circle("fill", bolas[i].x, bolas[i].y, bolas[i].raio)
+        end
         love.graphics.setColor(200, 150, 100)
         love.graphics.rectangle("fill", comedor.posX, comedor.posY, comedor.largura, comedor.altura)
         love.graphics.setColor(255, 255, 255)
