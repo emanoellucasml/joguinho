@@ -12,8 +12,10 @@ bola7 = {}
 bola8 = {}
 bola9 = {}
 bola10 = {}
-
 comedor = {}
+local menuInicialAtivo = true
+
+
 
 function atualizaBola(bola)
     if(bola.y >= 599) then
@@ -45,14 +47,15 @@ end
 function love.load()
     math.randomseed(os.time())
 
+    --CARREGANDO IMAGENS
 
-    --Sons do jogo
+    --SONS USADOS DENTRO DO JOGO
     musicaTema = love.audio.newSource("assets/songs/song.mp3","static")
 
 
-    --Executando música tema
-    musicaTema:play()
-	musicaTema:setLooping(true)
+    --REPRODUZINDO MÚSICA PRINCIPAL
+    --musicaTema:play()
+	--musicaTema:setLooping(true)
 
     --INICIALIZA AS BOLAS
     bola1 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(2, 5)}
@@ -70,6 +73,7 @@ function love.load()
     comedor = {posX = 0, posY = 575, largura = 50, altura = 25}
 
     love.mouse.setVisible(false) --desativa o mouse dentro da janela do jogo
+   
 end
 
 
@@ -93,25 +97,35 @@ function love.update(dt)
     end
 
     score = score + 1 --atualiza a pontuação
+
+    
+    
 end
 
 function love.draw()
-    love.graphics.circle("fill", bola1.x, bola1.y, bola1.raio)
-    love.graphics.circle("fill", bola2.x, bola2.y, bola2.raio)
-    love.graphics.circle("fill", bola3.x, bola3.y, bola3.raio)
-    love.graphics.circle("fill", bola4.x, bola4.y, bola4.raio)
-    love.graphics.setColor(255,255,0)
-    love.graphics.circle("fill", bola5.x, bola5.y, bola5.raio) --pintando uma bola de amarelho, pois essa é a comida
-    love.graphics.setColor(255, 255, 255)
-    love.graphics.circle("fill", bola6.x, bola6.y, bola6.raio)
-    love.graphics.circle("fill", bola7.x, bola7.y, bola7.raio)
-    love.graphics.circle("fill", bola8.x, bola8.y, bola8.raio)
-    love.graphics.circle("fill", bola9.x, bola9.y, bola9.raio)
-    love.graphics.circle("fill", bola10.x, bola10.y, bola10.raio)  
-
-
-    love.graphics.rectangle("fill", comedor.posX, comedor.posY, comedor.largura, comedor.altura)
-    love.graphics.print("Pontuação: " .. score, 0, 0)
+    if(menuInicialAtivo == true) then
+        love.graphics.print("PRESSIONE ESPAÇO PARA INICIAR", love.graphics.getHeight()/2, love.graphics.getWidth()/2)
+        if(love.keyboard.isDown("space")) then 
+            menuInicialAtivo = false
+        end
+    else 
+        musicaTema:play()
+	    musicaTema:setLooping(true)
+        love.graphics.circle("fill", bola1.x, bola1.y, bola1.raio)
+        love.graphics.circle("fill", bola2.x, bola2.y, bola2.raio)
+        love.graphics.circle("fill", bola3.x, bola3.y, bola3.raio)
+        love.graphics.circle("fill", bola4.x, bola4.y, bola4.raio)
+        love.graphics.setColor(255,255,0)
+        love.graphics.circle("fill", bola5.x, bola5.y, bola5.raio) --pintando uma bola de amarelho, pois essa é a comida
+        love.graphics.setColor(255, 255, 255)
+        love.graphics.circle("fill", bola6.x, bola6.y, bola6.raio)
+        love.graphics.circle("fill", bola7.x, bola7.y, bola7.raio)
+        love.graphics.circle("fill", bola8.x, bola8.y, bola8.raio)
+        love.graphics.circle("fill", bola9.x, bola9.y, bola9.raio)
+        love.graphics.circle("fill", bola10.x, bola10.y, bola10.raio)  
+        love.graphics.rectangle("fill", comedor.posX, comedor.posY, comedor.largura, comedor.altura)
+        love.graphics.print("Pontuação: " .. score, 0, 0)
+    end
 end
 
 

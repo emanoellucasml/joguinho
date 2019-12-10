@@ -40,3 +40,12 @@ function love.draw() --função callback chamada pelo Love a cada frame para a e
     love.graphics.polygon("fill", vertices)
 end
 ]==]
+
+function arquivo()
+    nomeArquivo = "pontuacao.txt"
+    arquivo = assert(io.open(nomeArquivo, "w"), "arquivo não pode ser criado")
+    arquivo:write("ok\n")
+    arquivo:flush()
+    io.close(arquivo)
+end
+
