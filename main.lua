@@ -26,11 +26,19 @@ end
 
 
 function movimentoEsquerda()
-    comedor.posX = comedor.posX - 7.5
+    if(comedor.posX <= 0) then
+        comedor.posX = love.graphics.getWidth()
+    else
+        comedor.posX = comedor.posX - 7.5
+    end
 end
 
 function movimentoDireita()
-    comedor.posX = comedor.posX + 7.5
+    if(comedor.posX >= love.graphics.getWidth()) then
+        comedor.posX = 0
+    else
+        comedor.posX = comedor.posX + 7.5
+    end
 end
 
 
