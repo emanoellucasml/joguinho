@@ -2,20 +2,30 @@ local r = nil
 local x = nil
 local y = nil
 local score = nil
+local vidas = nil
 local bola1 = {}
 local background = nil
 local playOnce = true
-bola2 = {}
-bola3 = {}
-bola4 = {}
-bola5 = {}
-bola6 = {}
-bola7 = {}
-bola8 = {}
-bola9 = {}
-bola10 = {}
-bolaComida = {}
-comedor = {}
+local bola2 = {}
+local bola3 = {}
+local bola4 = {}
+local bola5 = {}
+local bola6 = {}
+local bola7 = {}
+local bola8 = {}
+local bola9 = {}
+local bola10 = {}
+local bola11 = {}
+local bola12 = {}
+local bola13 = {}
+local bola14 = {}
+local bola15 = {}
+local bolaComida = {}
+local comedor = {}
+local maxScore = nil
+
+
+
 
 local menuInicialAtivo = true
 local perdeu = nil
@@ -54,7 +64,11 @@ function atualizaBola(bola, comedor)
     end
 
     if(bola.y >= 575 and (bola.x >= comedor.posX and bola.x <= comedor.posX + 50)) then
-        perdeu = true
+        if(vidas == 0) then
+            perdeu = true
+        end
+        bola.y = 0
+        vidas = vidas - 1
     end
 end
 
@@ -70,7 +84,7 @@ function atualizaBolaComida(bolaComida, comedor)
     if(bolaComida.y >= 575 and (bolaComida.x >= comedor.posX and bolaComida.x <= comedor.posX + 50)) then
         bolaComida.y = 0
         bolaComida.f = math.random(5, 15)
-        score = score + 1 -- atualiza o score caso o comedor coma a bola
+        vidas = vidas + 1 -- atualiza o score caso o comedor coma a bola
         somComeu:play()
     end
 end
@@ -96,19 +110,16 @@ function love.load()
     math.randomseed(os.time())
     perdeu = false
     score = 0
+    vidas = 0
     --CARREGANDO IMAGENS
     background = love.graphics.newImage("assets/img/green-back.png")
-
     --SONS USADOS DENTRO DO JOGO
     musicaTema = love.audio.newSource("assets/songs/song.mp3","static")
     somDerrota = love.audio.newSource("assets/songs/losssong.mp3", "static")
     somComeu = love.audio.newSource("assets/songs/comeu.wav", "static")
-
-
     --REPRODUZINDO MÚSICA PRINCIPAL
     --musicaTema:play()
 	--musicaTema:setLooping(true)
-
     --INICIALIZA AS BOLAS
     bolaComida = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(2, 12)}
     bola1 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 9)}
@@ -120,15 +131,21 @@ function love.load()
     bola7 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(5, 10)}
     bola8 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(6, 11)}
     bola9 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(5, 11)} 
-    bola10 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(3, 9)}
+    bola10 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(5, 11)}
+    bola11 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(6, 13)}
+    bola12 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(7, 11)} 
+    bola13 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(8, 10)}
+    bola14 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(3, 15)}
+    bola15 = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 12)} 
+
 
     --INICIALIZA O COMEDOR
     comedor = {posX = 0, posY = 575, largura = 50, altura = 25}
-
     love.mouse.setVisible(false) --desativa o mouse dentro da janela do jogo
-   
-end
+    
 
+
+end
 
 function love.update(dt)
     atualizaBola(bola1, comedor)
@@ -141,6 +158,11 @@ function love.update(dt)
     atualizaBola(bola8, comedor)
     atualizaBola(bola9, comedor)
     atualizaBola(bola10, comedor)
+    atualizaBola(bola11, comedor)
+    atualizaBola(bola12, comedor)
+    atualizaBola(bola13, comedor)
+    atualizaBola(bola14, comedor)
+    atualizaBola(bola15, comedor)
     atualizaBolaComida(bolaComida, comedor)
     if(love.keyboard.isDown("left")) then
         movimentoEsquerda()
@@ -148,6 +170,7 @@ function love.update(dt)
     if(love.keyboard.isDown("right")) then 
         movimentoDireita()
     end
+    score = score + 1
 end
 
 function love.draw()
@@ -165,6 +188,7 @@ function love.draw()
             score = 0 --
             playOnce = true
             perdeu = false
+            vidas = 0
         end
     else 
         musicaTema:play()
@@ -182,13 +206,13 @@ function love.draw()
         love.graphics.circle("fill", bola8.x, bola8.y, bola8.raio)
         love.graphics.circle("fill", bola9.x, bola9.y, bola9.raio)
         love.graphics.circle("fill", bola10.x, bola10.y, bola10.raio)  
+        love.graphics.circle("fill", bola11.x, bola11.y, bola11.raio)
+        love.graphics.circle("fill", bola12.x, bola12.y, bola12.raio)
+        love.graphics.circle("fill", bola13.x, bola13.y, bola13.raio)
+        love.graphics.circle("fill", bola14.x, bola14.y, bola14.raio)
+        love.graphics.circle("fill", bola15.x, bola15.y, bola15.raio) 
         love.graphics.rectangle("fill", comedor.posX, comedor.posY, comedor.largura, comedor.altura)
         love.graphics.print("Pontuação: " .. score, 0, 0)
+        love.graphics.print("Vidas: " .. vidas, love.graphics.getWidth()/2 - 100, 0)
     end
 end
-
-
---largura padrão: 800
---altura padrão: 600
--- love.graphics.getHeight ---> variável que representa a altura da janela
--- love.graphics.getWidth  ---> variável que representa a largura da janela

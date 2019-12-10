@@ -49,3 +49,7 @@ function arquivo()
     io.close(arquivo)
 end
 
+--largura padrão: 800
+--altura padrão: 600
+-- love.graphics.getHeight ---> variável que representa a altura da janela
+-- love.graphics.getWidth  ---> variável que representa a largura da janela
