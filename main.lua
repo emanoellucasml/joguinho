@@ -3,6 +3,7 @@ local x = nil
 local y = nil
 local score = 0
 local bola1 = {}
+local background = nil
 bola2 = {}
 bola3 = {}
 bola4 = {}
@@ -14,6 +15,8 @@ bola9 = {}
 bola10 = {}
 comedor = {}
 local menuInicialAtivo = true
+local perdeu = false
+
 
 
 
@@ -43,11 +46,18 @@ function movimentoDireita()
     end
 end
 
+function perdeu()
+    if(score == 400 or score > 400) then
+        return true
+    end
+    return false
+end
 
 function love.load()
     math.randomseed(os.time())
 
     --CARREGANDO IMAGENS
+    background = love.graphics.newImage("assets/img/green-back.png")
 
     --SONS USADOS DENTRO DO JOGO
     musicaTema = love.audio.newSource("assets/songs/song.mp3","static")
@@ -103,10 +113,17 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.draw(background, 0, 0)
     if(menuInicialAtivo == true) then
         love.graphics.print("PRESSIONE ESPAÇO PARA INICIAR", love.graphics.getHeight()/2, love.graphics.getWidth()/2)
         if(love.keyboard.isDown("space")) then 
             menuInicialAtivo = false
+        end
+    elseif(perdeu() == true) then
+        musicaTema:stop()
+        love.graphics.print("VOCÊ PERDEU! PRESSIONE ESPAÇO PARA INICIAR NOVAMENTE", love.graphics.getHeight()/2, love.graphics.getWidth()/2)
+        if(love.keyboard.isDown("space")) then 
+            score = 0 --score maior ou igual a 400 é a condição para que o jogador perca. Portanto, se o score zerar, o jogo reiniciará.
         end
     else 
         musicaTema:play()
