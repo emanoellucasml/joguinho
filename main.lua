@@ -60,13 +60,14 @@ end
 function atualizaBolaComida(bolaComida, comedor)
     if(bolaComida.y >= 599) then
         bolaComida.y = 0
-        bolaComida.x = math.random(1, 790)
+        bolaComida.x = math.random(2, 799)
     else
         bolaComida.y = bolaComida.y + bolaComida.f
     end
 
     if(bolaComida.y >= 575 and (bolaComida.x >= comedor.posX and bolaComida.x <= comedor.posX + 50)) then
         bolaComida.y = 0
+        bolaComida.x = math.random(2, 799)
         bolaComida.f = math.random(5, 15)
         vidas = vidas + 1 -- atualiza o score caso o comedor coma a bola
         somComeu:play()
