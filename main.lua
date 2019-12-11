@@ -5,12 +5,8 @@ local playOnce = true
 local bolaComida = {}
 local comedor = {}
 local maxScore = nil
-
 local fontePrincipal = "assets/fonts/acme.ttf"
-
 local bolas = {}
-
-
 local menuInicialAtivo = true
 local perdeu = nil
 
@@ -97,7 +93,7 @@ function love.load()
     score = 0
     vidas = 3
     --CARREGANDO IMAGENS
-    background = love.graphics.newImage("assets/img/green-back.png")
+    background = love.graphics.newImage("assets/img/ceu.png")
     --SONS USADOS DENTRO DO JOGO
     musicaTema = love.audio.newSource("assets/songs/song.mp3","static")
     somDerrota = love.audio.newSource("assets/songs/losssong.mp3", "static")
@@ -110,24 +106,21 @@ function love.load()
         bolas[i] = {}
     end
     --INICIALIZA AS BOLAS
-    bolaComida = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(2, 12)}
+    bolaComida = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 8)}
     for i=1,15 do
         bolas[i].raio = 10
         bolas[i].x = math.random(1, 790)
         bolas[i].y = 0
-        bolas[i].f = math.random(math.random(1, 4), math.random(4, 9))
+        bolas[i].f = math.random(5, 10)
     end
 
     --INICIALIZA O COMEDOR
     comedor = {posX = 0, posY = 575, largura = 50, altura = 25}
     love.mouse.setVisible(false) --desativa o mouse dentro da janela do jogo
-    
-
-
 end
 
 function love.update(dt)
-    if(perdeu == false) then
+    if(perdeu == false and menuInicialAtivo == false) then
         for i=1,15 do
             atualizaBola(bolas[i], comedor)
         end
@@ -146,15 +139,24 @@ function love.draw()
     love.graphics.draw(background, 0, 0)
     if(menuInicialAtivo == true) then
         love.graphics.setFont(love.graphics.newFont(fontePrincipal, 25))
+        love.graphics.setColor(255, 255, 0) -- definindo a cor amarela para o texto
         love.graphics.print("PRESSIONE ESPAÇO PARA INICIAR", love.graphics.getWidth()/2 - 200, love.graphics.getHeight()/2)
+        love.graphics.setColor(255, 255, 255) -- resetando a cor
         if(love.keyboard.isDown("space")) then 
             menuInicialAtivo = false
         end
     elseif(perdeu == true) then
         musicaTema:stop()
         love.graphics.setFont(love.graphics.newFont(fontePrincipal, 25))
+        love.graphics.setColor(255, 255, 0) -- definindo a cor amarela para o texto
         love.graphics.print("VOCÊ PERDEU! PRESSIONE ESPAÇO PARA INICIAR NOVAMENTE.", love.graphics.getHeight()/2 - 295, love.graphics.getWidth()/2 - 140)
+        love.graphics.setColor(255, 255, 255) -- resetando a cor
         reproduzSomDaDerrota()
+        
+        for i=1,10,1 do -- assim que o jogo finalizar, todas as bolas devem voltar para o topo, para que, assim que o jogo iniciar novamente, elas não estejam no meio ou em qualquer ponto do eixo y a não ser a origem
+            bolas[i].y = 0
+        end
+
         if(love.keyboard.isDown("space")) then 
             score = 0 --
             playOnce = true
@@ -164,15 +166,14 @@ function love.draw()
     else 
         musicaTema:play()
         musicaTema:setLooping(true)
-        love.graphics.setColor(255,255,0)
+        love.graphics.setColor(255,255,0) -- definindo a cor amarela para a bola de vida
         love.graphics.circle("fill", bolaComida.x, bolaComida.y, bolaComida.raio)
-        love.graphics.setColor(255, 255, 255)
+        love.graphics.setColor(0, 0, 0) -- definindo a cor verde para as bolas da morte
         for i=1,15 do
             love.graphics.circle("fill", bolas[i].x, bolas[i].y, bolas[i].raio)
         end
-        love.graphics.setColor(200, 150, 100)
+        love.graphics.setColor(255, 255, 255) --voltando à cor padrão
         love.graphics.rectangle("fill", comedor.posX, comedor.posY, comedor.largura, comedor.altura)
-        love.graphics.setColor(255, 255, 255)
         love.graphics.print("Pontuação: " .. score, 0, 0)
         love.graphics.print("Vidas: " .. vidas, love.graphics.getWidth()/2 - 100, 0)
     end
