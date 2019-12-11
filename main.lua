@@ -144,15 +144,15 @@ end
 function love.draw()
     love.graphics.draw(background, 0, 0)
     if(menuInicialAtivo == true) then
-        love.graphics.setFont(love.graphics.newFont(fontePrincipal), 15)
-        love.graphics.print("PRESSIONE ESPAÇO PARA INICIAR", love.graphics.getWidth()/2 - 100, love.graphics.getHeight()/2)
+        love.graphics.setFont(love.graphics.newFont(fontePrincipal, 25))
+        love.graphics.print("PRESSIONE ESPAÇO PARA INICIAR", love.graphics.getWidth()/2 - 200, love.graphics.getHeight()/2)
         if(love.keyboard.isDown("space")) then 
             menuInicialAtivo = false
         end
     elseif(perdeu == true) then
         musicaTema:stop()
-        love.graphics.setFont(love.graphics.newFont(fontePrincipal), 15)
-        love.graphics.print("VOCÊ PERDEU! PRESSIONE ESPAÇO PARA INICIAR NOVAMENTE", love.graphics.getHeight()/2 - 60, love.graphics.getWidth()/2 - 140)
+        love.graphics.setFont(love.graphics.newFont(fontePrincipal, 25))
+        love.graphics.print("VOCÊ PERDEU! PRESSIONE ESPAÇO PARA INICIAR NOVAMENTE.", love.graphics.getHeight()/2 - 295, love.graphics.getWidth()/2 - 140)
         reproduzSomDaDerrota()
         if(love.keyboard.isDown("space")) then 
             score = 0 --
