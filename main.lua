@@ -127,7 +127,7 @@ function love.load()
 end
 
 function love.update(dt)
-    if(perdeu == false) then
+    if(perdeu == false and menuInicialAtivo == false) then
         for i=1,15 do
             atualizaBola(bolas[i], comedor)
         end
@@ -155,6 +155,11 @@ function love.draw()
         love.graphics.setFont(love.graphics.newFont(fontePrincipal, 25))
         love.graphics.print("VOCÊ PERDEU! PRESSIONE ESPAÇO PARA INICIAR NOVAMENTE.", love.graphics.getHeight()/2 - 295, love.graphics.getWidth()/2 - 140)
         reproduzSomDaDerrota()
+        
+        for i=1,10,1 do -- assim que o jogo finalizar, todas as bolas devem voltar para o topo, para que, assim que o jogo iniciar novamente, elas não estejam no meio ou em qualquer ponto do eixo y a não ser a origem
+            bolas[i].y = 0
+        end
+
         if(love.keyboard.isDown("space")) then 
             score = 0 --
             playOnce = true
