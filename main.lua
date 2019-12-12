@@ -2,13 +2,15 @@ local score = nil
 local vidas = nil
 local background = nil
 local playOnce = true
-local bolaComida = {}
 local comedor = {}
 local maxScore = nil
 local fontePrincipal = "assets/fonts/acme.ttf"
 local bolas = {}
+local bolasAmarelas = {}
+local numeroDeBolasAmarelas = nil
 local menuInicialAtivo = true
 local perdeu = nil
+
 
 -- funções relativas ao objeto comedor
 function getComedorX(comedor)
@@ -54,19 +56,21 @@ end
 
 
 function atualizaBolaComida(bolaComida, comedor)
-    if(bolaComida.y >= 599) then
-        bolaComida.y = 0
-        bolaComida.x = math.random(2, 799)
-    else
-        bolaComida.y = bolaComida.y + bolaComida.f
-    end
+    for i=1, numeroDeBolasAmarelas, 1 do
+        if(bolasAmarelas[i].y >= 599) then
+            bolasAmarelas[i].y = 0
+            bolasAmarelas[i].x = math.random(2, 799)
+        else
+            bolasAmarelas[i].y = bolasAmarelas[i].y + bolasAmarelas[i].f
+        end
 
-    if(bolaComida.y >= 575 and (bolaComida.x >= comedor.posX and bolaComida.x <= comedor.posX + 50)) then
-        bolaComida.y = 0
-        bolaComida.x = math.random(2, 799)
-        bolaComida.f = math.random(5, 15)
-        vidas = vidas + 1 -- atualiza o score caso o comedor coma a bola
-        somComeu:play()
+        if(bolasAmarelas[i].y >= 575 and (bolasAmarelas[i].x >= comedor.posX and bolasAmarelas[i].x <= comedor.posX + 50)) then
+            bolasAmarelas[i].y = 0
+            bolasAmarelas[i].x = math.random(2, 799)
+            bolasAmarelas[i].f = math.random(5, 15)
+            vidas = vidas + 1 -- atualiza o score caso o comedor coma a bola
+            somComeu:play()
+        end
     end
 end
 
@@ -92,6 +96,7 @@ function love.load()
     perdeu = false
     score = 0
     vidas = 3
+    numeroDeBolasAmarelas = 10
     --CARREGANDO IMAGENS
     background = love.graphics.newImage("assets/img/ceu.png")
     --SONS USADOS DENTRO DO JOGO
@@ -105,8 +110,13 @@ function love.load()
     for i=1,15 do
         bolas[i] = {}
     end
+    for i=1, numeroDeBolasAmarelas, 1 do
+        bolasAmarelas[i] = {}
+    end
     --INICIALIZA AS BOLAS
-    bolaComida = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 8)}
+    for i=1, numeroDeBolasAmarelas, 1 do 
+        bolasAmarelas[i] = {raio = 10, x = math.random(1, 790), y = 0, f = math.random(4, 8)}
+    end
     for i=1,15 do
         bolas[i].raio = 10
         bolas[i].x = math.random(1, 790)
@@ -167,7 +177,9 @@ function love.draw()
         musicaTema:play()
         musicaTema:setLooping(true)
         love.graphics.setColor(255,255,0) -- definindo a cor amarela para a bola de vida
-        love.graphics.circle("fill", bolaComida.x, bolaComida.y, bolaComida.raio)
+        for i=1, numeroDeBolasAmarelas, 1 do
+            love.graphics.circle("fill", bolasAmarelas[i].x, bolasAmarelas[i].y, bolasAmarelas[i].raio)
+        end
         love.graphics.setColor(0, 0, 0) -- definindo a cor verde para as bolas da morte
         for i=1,15 do
             love.graphics.circle("fill", bolas[i].x, bolas[i].y, bolas[i].raio)
